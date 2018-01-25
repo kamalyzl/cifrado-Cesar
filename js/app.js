@@ -1,47 +1,39 @@
-
-/*
-Crea una web que pida, por medio de un prompt(), una frase al usuario y devuelva el mismo mensaje encriptado
-según el algoritmo de Cifrado César con el parámetro de desplazamiento de 33 espacios hacia la derecha
-Por ejemplo:
-
-Texto original: ABCDEFGHIJKLMNOPQRSTUVWXYZ
-Texto codificado: HIJKLMNOPQRSTUVWXYZABCDEFG
- */
+// trayendo variables DOM
+let cipherBtn = document.getElementById('cipher');
+let desCipherBtn = document.getElementById('deCipher');
+let input = document.getElementById('inputText');
 
 
- // creamos la primera funcion para cifrar
-function ciphe (text){
-  
-    array = text.split(""); //se convierte texto a un array
-    array2= array.splice(0,7); //separamos los arrays 
-    array3= array.concat(array2); //Unimos arrays
-    finalText= array3.join("");// transformamos arrays a String 
-  
-
-    //Validamos, si tipo de texto es igual a una cadena String, devolver mensaje, sino error
-    if ( typeof(text)=== typeof("h")){
-      return ("Texto original " +text + "\n" + " texto cifrado es : "+ finalText);
-          }  return alert("Error"); 
-
+cipherBtn.addEventListener('click', cipher);
+function cipher() {
+  let newPhrase = '';
+  let patronMayus = /^[A-Z\s]*$/;
+  let patronMinus = /^[a-z\s]*$/;
+  for (i = 0; i < input.value.length; i++) {
+    let toAscii = input.value.charCodeAt(i);
+    if (!input.value.search(patronMayus))
+      newPhrase += String.fromCharCode((toAscii - 65 + 33) % 26 + 65);
+    else if (!input.value.search(patronMinus))
+      newPhrase += String.fromCharCode((toAscii - 97 + 33) % 26 + 97);
+    else
+      newPhrase += String.fromCharCode(toAscii);
+  }
+  alert(newPhrase);
 }
 
-//Creamos la funcion para decifrar
-function decipher(text){
-    array = text.split(""); // convertimos un texto en arrays
-    array2= array.splice(-7,7); // dividimos el array 
-    array3= array2.concat(array); // Unimos el array
-    finalText= array3.join(""); // transformamos de array a String 
-  
-
-    //validamos, si el tipo de text es igual a un String sino monstramos error 
-    if (typeof(text)=== typeof("h")){
-      return ("Texto original " +text + "\n" + " texto cifrado es : "+ finalText);
-         }     return alert("Error"); 
-
+desCipherBtn.addEventListener('click', desCipher);
+function desCipher() {
+  let newPhrase = '';
+  let patronMayus = /^[A-Z\s]*$/;
+  let patronMinus = /^[a-z\s]*$/;
+  for (i = 0; i < input.value.length; i++) {
+    let toAscii = input.value.charCodeAt(i);
+    if (!input.value.search(patronMayus))
+      newPhrase += String.fromCharCode((toAscii - 65 - 33 + 26 * 2) % 26 + 65);
+    else if (!input.value.search(patronMinus))
+      newPhrase += String.fromCharCode((toAscii - 97 - 33 + 26 * 2) % 26 + 97);
+    else
+      newPhrase += String.fromCharCode(toAscii);
+  }
+  alert(newPhrase);
 }
-
-
-//Probar funcion por función 
-// ejemplo= ABCDEFGHIJKLMNOPQRSTUVWXYZ
-ciphe(prompt("Ingresa texto para cifrar"));
-//decipher(prompt("Ingresa texto que desea desifrar "));
